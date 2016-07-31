@@ -1,0 +1,102 @@
+/* ======= Gallery Section ======= */
+.gallery-section {
+  padding-top: 90px;
+  padding-bottom: 90px;
+  background: #f5f5f5;
+}
+.gallery-section .title {
+  margin-bottom: 30px;
+}
+.gallery-section .intro {
+  margin-bottom: 60px;
+  font-size: 16px;
+  color: #786b67;
+}
+.gallery-section .intro .hashtag {
+  font-family: 'Montserrat', arial, sans-serif;
+}
+.instafeed-wrapper {
+  overflow: hidden;
+}
+.instagram-item {
+  float: left;
+  display: inline-block;
+}
+.btn-load-more {
+  margin-top: 45px;
+}
+.nav-tabs {
+  border: none;
+  display: inline-block;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+.nav-tabs > li {
+  margin-right: 15px;
+}
+.nav-tabs > li.last {
+  margin-right: 0;
+}
+.nav-tabs > li > a {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  color: #786b67;
+  padding: 5px;
+  border: none;
+  border-bottom: 4px solid transparent;
+  font-size: 18px;
+}
+.nav-tabs > li > a:hover {
+  background: transparent;
+  border: none;
+  border-bottom: 4px solid transparent;
+  color: #413a38;
+}
+.nav-tabs > li.active > a {
+  color: #413a38;
+  background: transparent;
+  border: none;
+  border-bottom: 4px solid #f4af9c;
+  font-weight: bold;
+}
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  border: none;
+  border-bottom: 4px solid #f4af9c;
+  background: transparent;
+  color: #413a38;
+}
+.tab-pane {
+  padding: 15px;
+}
+.photos-wrapper {
+  overflow: hidden;
+}
+.photos-wrapper .item {
+  display: inline-block;
+  width: 25%;
+  float: left;
+}
+.photos-wrapper .item.w2 {
+  width: 50%;
+}
+.blueimp-gallery > .prev,
+.blueimp-gallery > .next {
+  border-color: #f4af9c;
+  color: #f4af9c;
+}
+.blueimp-gallery > .prev:hover,
+.blueimp-gallery > .next:hover {
+  color: #f9d4ca;
+}
+.blueimp-gallery > .close {
+  color: #f4af9c !important;
+}
