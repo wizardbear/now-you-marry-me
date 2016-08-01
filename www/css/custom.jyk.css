@@ -533,7 +533,7 @@ header {
 	border-radius:6px;
 	padding:7px 0;
 	color:#FFFFFF;
-	height:135px;
+	/*height:135px;*/
 }
 
 .tweets p {
@@ -682,7 +682,8 @@ header {
 }
 
 #services {
-	height:680px;
+	/*height:680px;*/
+	height: auto;
 }
 
 /*------------------------------

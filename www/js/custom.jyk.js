@@ -88,44 +88,35 @@ $(document).ready(function() {
 		$('.macbook-inner').waypoint(function(){$(this).toggleClass('active');$(this).toggleClass('black');},{offset:'70%'});
 	}
 	
-	var calcNewYear = setInterval(function(){
+	var getMessage = function(){
         date_future = new Date(2016, 9, 8, 14, 0, 0);
-        
         date_now = new Date();
-        seconds = Math.floor((date_future - (date_now))/1000);
-        minutes = Math.floor(seconds/60);
-        hours = Math.floor(minutes/60);
-        days = Math.floor(hours/24);
         
-        hours = hours-(days*24);
-        minutes = minutes-(days*24*60)-(hours*60);
-        seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
-
-		if (days <= 0) {
-			$("#counter0").remove();
-		} else {
-        	$("#counter0").text(days + "일 ");
-        	
-        	//DONE: 1주일 전 "1주일 전입니다. 꼭 와주실 거죠?"
-        	//TODO: 당일 "먼저 가서 기다리고 있겠습니다."
-        	//TODO: 시작 30분 전 "아직 늦지 않았습니다! 서둘러 주세요."
-        	//TODO: 3시 30분 "와주신 하객 여러분께 진심으로 감사드립니다.", 날짜 표시 "(미정) 결혼 완료 텍스트"
-        	if (days < 7) {
-				$("#welcomeText").remove();
-				
-				//당일
-				if (new Date(2016, 6, 31) < date_now) {
-					$("#welcomeTextW1").remove();
-				} else {
-					$("#welcomeTextDday").remove();
-				}
-			}
-		}
-        $("#counter1").text(hours);
-		$("#counter2").text(minutes); 
-		$("#counter3").text(seconds);
-		
-    },1000);
+        if (new Date() < new Date(2016, 9, 8, 14, 0, 0)) {
+	        seconds = Math.floor((date_future - (date_now))/1000);
+	        minutes = Math.floor(seconds/60);
+	        hours = Math.floor(minutes/60);
+	        days = Math.floor(hours/24);
+	        
+	        hours = hours-(days*24);
+	        minutes = minutes-(days*24*60)-(hours*60);
+	        seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+	        
+	    	$("#counter0").text(days);
+	        $("#counter1").text(hours);
+			$("#counter2").text(minutes); 
+			$("#counter3").text(seconds);
+        }
+        
+		$.get("add-ins/dday/api.php",function(messages){
+	        $("#remainText").html(messages.remainText);
+	        $("#welcomeText").text(messages.welcomeText);
+		}, "json");
+	    
+    };
+    
+	var calcWedding = setInterval(getMessage, 1000);
+    
 });
 
 
