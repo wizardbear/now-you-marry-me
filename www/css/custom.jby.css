@@ -100,3 +100,35 @@
 .blueimp-gallery > .close {
   color: #f4af9c !important;
 }
+
+
+.customoverlay {
+  color: #444444;
+  padding: 3px;
+  background-color: #ffffff;
+  margin-top: 94px;
+  border: solid 2px #cc0000;
+  border-radius: 5px;
+  font-size: 0.9em;
+ -moz-border-radius: 15px;
+ -webkit-border-radius: 15px;
+ -o-border-radius: 15px;
+}
+
+.customoverlay_parking {
+  color: #444444;
+  padding: 3px;
+  background-color: #ffffff;
+  margin-top: -12px;
+  margin-left:-58px;
+  border: solid 2px #cc0000;
+  border-radius: 5px;
+  font-size: 0.9em;
+ -moz-border-radius: 15px;
+ -webkit-border-radius: 15px;
+ -o-border-radius: 15px;
+}
+
+#map {
+  height: 320px;
+}

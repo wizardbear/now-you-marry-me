@@ -13,6 +13,23 @@ if ($_GET['m'] == 'show-recent-messages') {
     echo json_encode($ret);
     
 }
+elseif ($_GET['m'] == 'show-more-messages') {
+    $minMsgId = $_GET['minMsgId'];
+    $db = new SQLite3('wedding.sqlite');
+    $sql = "select * from guestbook where id < :minMsgId order by timestamp desc limit 4";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':minMsgId', $minMsgId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $ret = array();
+    while($row = $result->fetchArray()) {
+        $ret[] = $row;
+    }
+    // var_dump($ret);
+    echo json_encode($ret);
+    
+}
 else {
     extract($_POST);
     
