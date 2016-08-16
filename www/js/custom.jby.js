@@ -2,7 +2,7 @@ var minMsgId = 9999999;
 
 var tmpl = '<div class="col-sm-6 sp-effect1" id="messageBox{id}" data-msg-id="{id}">' +
 '<div class="media">' +
-'<a class="pull-left" href="#"><img class="media-object img-circle" src="data/jj.png" alt=""></a>' +
+//'<a class="pull-left" href="#"><img class="media-object img-circle" src="data/jj.png" alt=""></a>' +
 '<div class="media-body">' +
 '<h4 class="media-heading">{name}</h4>' +
 //'<span><!--Webdesigner-->&nbsp</span>' +
@@ -94,25 +94,6 @@ $(document).ready(function() {
 		});
         
     }); 
-    
-    // $('#contactForm').submit(function(event){
-    //     event.preventDefault();
-    //     $.post(
-    //         'api',
-    //         $( "#contactorm" ).serialize(),
-    //         function(){}
-    //     )
-    //     .done(function(data){
-    //         console.log(data);
-    //         if (data=='success') {
-    //             alert('성공');
-    //         }
-    //     })
-    //     .fail(function(){})
-    //     .always(function(){})
-    //     ;
-    //     return false;
-    // });
 
 	$("input,textarea").jqBootstrapValidation({
     	preventSubmit: true,
