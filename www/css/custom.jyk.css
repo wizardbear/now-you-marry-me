@@ -1591,7 +1591,8 @@ blockquote footer {
 	}
 
 	.tweets p {
-		font-size:12px;
+		/*font-size:12px;*/
+		font-size:14px;
 	}
 	
 	.tweets i {

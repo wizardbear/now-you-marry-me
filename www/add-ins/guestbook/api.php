@@ -2,26 +2,35 @@
 // var_dump($_POST);
 // error_reporting(0);
 
-function getTotalCount($db) {
+function getTotalPage($db, $id) {
 
     $sql = "select count(*) cnt from guestbook";
-    $result = $db->query($sql);
+    $stmt = $db->prepare($sql);
+    // $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
     $countResult = $result->fetchArray();
     
     $totalCount = $countResult['cnt'];
-    return $totalCount;
+    $totalPage = ceil($totalCount / 4); 
+    return $totalPage;
+}
+
+function getRestIds($db, $id) {
+    
 }
 
 if ($_GET['m'] == 'show-recent-messages') {
     $db = new SQLite3('wedding.sqlite');
-    $sql = "select * from guestbook order by timestamp desc limit 4";
+    $sql = "select * from guestbook order by id desc limit 4";
     $result = $db->query($sql);
     $data = array();
     while($row = $result->fetchArray()) {
         $data[] = $row;
+        $minId = $row['id'];
     }
     // var_dump($ret);
-    $totalCount = getTotalCount($db);
+    $totalPage = getTotalPage($db, $minId);
 
     echo json_encode(array(
         'data' => $data,
@@ -33,7 +42,7 @@ if ($_GET['m'] == 'show-recent-messages') {
 elseif ($_GET['m'] == 'show-more-messages') {
     $minMsgId = $_GET['minMsgId'];
     $db = new SQLite3('wedding.sqlite');
-    $sql = "select * from guestbook where id < :minMsgId order by timestamp desc limit 4";
+    $sql = "select * from guestbook where id < :minMsgId order by id desc limit 4";
 
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':minMsgId', $minMsgId, SQLITE3_INTEGER);
@@ -42,13 +51,14 @@ elseif ($_GET['m'] == 'show-more-messages') {
     $data = array();
     while($row = $result->fetchArray()) {
         $data[] = $row;
+        $minId = $row['id'];
     }
     // var_dump($ret);
-    $totalCount = getTotalCount($db);
+    $totalPage = getTotalPage($db, $minId);
 
     echo json_encode(array(
         'data' => $data,
-        'totalPgae' => $totalPage,
+        'totalPage' => $totalPage,
         'currentPage' => 1,
         ));
     
@@ -69,7 +79,7 @@ else {
         $stmt->bindValue(':timestamp', $timestamp, SQLITE3_INTEGER);
         $stmt->bindValue(':meta', $meta, SQLITE3_TEXT);
         
-        $totalCount = getTotalCount($db);
+        // $totalPage = getTotalPage($db);
 
         $result = $stmt->execute();
         if ($db->lastInsertRowID() > 0) {
@@ -81,7 +91,7 @@ else {
 
         echo json_encode(array(
             'code' => $code,
-            'totalPage' => $totalPage,
+            // 'totalPage' => $totalPage,
             ));    
 
     }

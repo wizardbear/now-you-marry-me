@@ -78,7 +78,7 @@ $(document).ready(function() {
 			$(this).find('img').stop().animate({paddingBottom: "0px"},500);
 		});
 	}
-/*	
+	/*	
 	if($(window).width() > 767) {
 		$('.scrollpoint.sp-effect1').waypoint(function(){$(this).toggleClass('active');$(this).toggleClass('animated fadeInLeft');},{offset:'90%'});
 		$('.scrollpoint.sp-effect2').waypoint(function(){$(this).toggleClass('active');$(this).toggleClass('animated fadeInRight');},{offset:'90%'});
@@ -92,7 +92,7 @@ $(document).ready(function() {
         date_future = new Date(2016, 9, 8, 14, 0, 0);
         date_now = new Date();
         
-        if (new Date() < new Date(2016, 9, 8, 14, 0, 0)) {
+        if (date_now < date_future) {
 	        seconds = Math.floor((date_future - (date_now))/1000);
 	        minutes = Math.floor(seconds/60);
 	        hours = Math.floor(minutes/60);
@@ -106,8 +106,9 @@ $(document).ready(function() {
 	        $("#counter1").text(hours);
 			$("#counter2").text(minutes); 
 			$("#counter3").text(seconds);
-        } else{
+        } else if (date_now > new Date(2016, 9, 8, 16, 0, 0)) {
         	$("#services").remove();
+        	$("#map-info").remove();
         }
 
     };

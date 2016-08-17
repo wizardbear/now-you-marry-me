@@ -8,7 +8,7 @@ var tmpl = '<div class="col-sm-6 sp-effect1" id="messageBox{id}" data-msg-id="{i
 //'<span><!--Webdesigner-->&nbsp</span>' +
 '<p>{message}</p></div></div></div>';
             
-function addMessage(id, name, message, position, page, total) {
+function addMessage(id, name, message, position) {
     msg = tmpl.replace('{name}', name);
     msg = msg.replace('{message}', message);
     msg = msg.replace('{id}', id);
@@ -19,6 +19,10 @@ function addMessage(id, name, message, position, page, total) {
         $('#messageRow').append(msg);
     }
     if (minMsgId > id) minMsgId = id;
+    
+    // if (page > 0) $('#currentPage').text(page);
+    // if (total > 0) $('#totalPage').text(total);
+    // else $('#btn-more-box').remove();
 }
 
 function showRecentMessages() {
@@ -34,8 +38,10 @@ function showRecentMessages() {
 		        message = res.data[i].message;
 		        id = res.data[i].id;
 		        
-		        addMessage(id, name, message, 'bottom', res.currentPage, res.totalPage);
+		        addMessage(id, name, message, 'bottom');
 		    }
+		    $('#currentPage').text(res.currentPage);
+		    $('#totalPage').text(res.totalPage);
 		},
 		error: function(){},
 	})
@@ -87,7 +93,16 @@ $(document).ready(function() {
     		        message = res.data[i].message;
     		        id = res.data[i].id;
     		        
-    		        addMessage(id, name, message, 'bottom', res.currentPage, res.totalPage);
+    		        addMessage(id, name, message, 'bottom');
+    		    }
+    		    nPage = parseInt($('#currentPage').text());
+    		    tPage = parseInt($('#totalPage').text());
+    		    
+    		    if (nPage+1 == tPage ) {
+    		    	$('#btn-more-box').remove()	;
+    		    }
+    		    else {
+    		    	$('#currentPage').text(nPage+1);
     		    }
     		},
 			error: errorHandler,
@@ -121,12 +136,13 @@ $(document).ready(function() {
 				    }
 				    
 					// Success message
+					alert('축하해주셔서 감사합니다!');
 					$('.contact-alert').html("<div class='alert alert-success'>");
 					$('.contact-alert > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'><i class='fa fa-times'></i></button><strong>축하해 주셔서 감사합니다!</strong></div>");
 					//clear all fields
 					$('#contactForm').trigger("reset");
 					
-					addMessage(res.code, name, message, "top", 0, 0);
+					addMessage(res.code, name, message, "top");
 			// 		location.href='#messageBox'+res;
 					location.href='#TestimonialsTitle';
 				},
