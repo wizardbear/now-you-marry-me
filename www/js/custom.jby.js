@@ -8,7 +8,7 @@ var tmpl = '<div class="col-sm-6 sp-effect1" id="messageBox{id}" data-msg-id="{i
 //'<span><!--Webdesigner-->&nbsp</span>' +
 '<p>{message}</p></div></div></div>';
             
-function addMessage(id, name, message, position) {
+function addMessage(id, name, message, position, page, total) {
     msg = tmpl.replace('{name}', name);
     msg = msg.replace('{message}', message);
     msg = msg.replace('{id}', id);
@@ -29,12 +29,12 @@ function showRecentMessages() {
 		dataType: 'json',
 		cache: false,
 		success: function(res) {
-		    for(i=0; i<res.length; i++) {
-		        name = res[i].name;
-		        message = res[i].message;
-		        id = res[i].id;
+		    for(i=0; i<res.data.length; i++) {
+		        name = res.data[i].name;
+		        message = res.data[i].message;
+		        id = res.data[i].id;
 		        
-		        addMessage(id, name, message, 'bottom');
+		        addMessage(id, name, message, 'bottom', res.currentPage, res.totalPage);
 		    }
 		},
 		error: function(){},
@@ -82,12 +82,12 @@ $(document).ready(function() {
 			cache: false,
     		dataType: 'json',
     		success: function(res) {
-    		    for(i=0; i<res.length; i++) {
-    		        name = res[i].name;
-    		        message = res[i].message;
-    		        id = res[i].id;
+    		    for(i=0; i<res.data.length; i++) {
+    		        name = res.data[i].name;
+    		        message = res.data[i].message;
+    		        id = res.data[i].id;
     		        
-    		        addMessage(id, name, message, 'bottom');
+    		        addMessage(id, name, message, 'bottom', res.currentPage, res.totalPage);
     		    }
     		},
 			error: errorHandler,
@@ -112,9 +112,10 @@ $(document).ready(function() {
 					message: message
 				},
 				cache: false,
+        		dataType: 'json',
 				success: function(res) {
-				    console.log(res);
-				    if (res == 'fail') {
+				    // console.log(res);
+				    if (res.code == 'fail') {
 				        errorHandler();
 				        return false;
 				    }
@@ -125,7 +126,7 @@ $(document).ready(function() {
 					//clear all fields
 					$('#contactForm').trigger("reset");
 					
-					addMessage(res, name, message, "top");
+					addMessage(res.code, name, message, "top", 0, 0);
 			// 		location.href='#messageBox'+res;
 					location.href='#TestimonialsTitle';
 				},

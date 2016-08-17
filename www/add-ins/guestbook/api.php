@@ -1,16 +1,33 @@
 <?php
 // var_dump($_POST);
 // error_reporting(0);
+
+function getTotalCount($db) {
+
+    $sql = "select count(*) cnt from guestbook";
+    $result = $db->query($sql);
+    $countResult = $result->fetchArray();
+    
+    $totalCount = $countResult['cnt'];
+    return $totalCount;
+}
+
 if ($_GET['m'] == 'show-recent-messages') {
     $db = new SQLite3('wedding.sqlite');
-    $sql = "select * from guestbook order by timestamp desc limit 2";
+    $sql = "select * from guestbook order by timestamp desc limit 4";
     $result = $db->query($sql);
-    $ret = array();
+    $data = array();
     while($row = $result->fetchArray()) {
-        $ret[] = $row;
+        $data[] = $row;
     }
     // var_dump($ret);
-    echo json_encode($ret);
+    $totalCount = getTotalCount($db);
+
+    echo json_encode(array(
+        'data' => $data,
+        'totalPage' => $totalPage,
+        'currentPage' => 1,
+        ));
     
 }
 elseif ($_GET['m'] == 'show-more-messages') {
@@ -22,12 +39,18 @@ elseif ($_GET['m'] == 'show-more-messages') {
     $stmt->bindValue(':minMsgId', $minMsgId, SQLITE3_INTEGER);
     $result = $stmt->execute();
 
-    $ret = array();
+    $data = array();
     while($row = $result->fetchArray()) {
-        $ret[] = $row;
+        $data[] = $row;
     }
     // var_dump($ret);
-    echo json_encode($ret);
+    $totalCount = getTotalCount($db);
+
+    echo json_encode(array(
+        'data' => $data,
+        'totalPgae' => $totalPage,
+        'currentPage' => 1,
+        ));
     
 }
 else {
@@ -46,13 +69,26 @@ else {
         $stmt->bindValue(':timestamp', $timestamp, SQLITE3_INTEGER);
         $stmt->bindValue(':meta', $meta, SQLITE3_TEXT);
         
+        $totalCount = getTotalCount($db);
+
         $result = $stmt->execute();
-        if ($db->lastInsertRowID() > 0) echo $db->lastInsertRowID();
-        else echo 'fail';
-        
+        if ($db->lastInsertRowID() > 0) {
+            $code = $db->lastInsertRowID();
+        }
+        else {
+            $code = 'fail';
+        }
+
+        echo json_encode(array(
+            'code' => $code,
+            'totalPage' => $totalPage,
+            ));    
+
     }
     catch (Exception $e) {
-        echo 'fail';
+        echo json_encode(array(
+            'code' => $code,
+            ));    
     }
     
     

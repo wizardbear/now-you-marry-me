@@ -78,7 +78,7 @@ $(document).ready(function() {
 			$(this).find('img').stop().animate({paddingBottom: "0px"},500);
 		});
 	}
-	
+/*	
 	if($(window).width() > 767) {
 		$('.scrollpoint.sp-effect1').waypoint(function(){$(this).toggleClass('active');$(this).toggleClass('animated fadeInLeft');},{offset:'90%'});
 		$('.scrollpoint.sp-effect2').waypoint(function(){$(this).toggleClass('active');$(this).toggleClass('animated fadeInRight');},{offset:'90%'});
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		
 		$('.macbook-inner').waypoint(function(){$(this).toggleClass('active');$(this).toggleClass('black');},{offset:'70%'});
 	}
-	
+	*/
 	var getMessage = function(){
         date_future = new Date(2016, 9, 8, 14, 0, 0);
         date_now = new Date();
@@ -106,17 +106,21 @@ $(document).ready(function() {
 	        $("#counter1").text(hours);
 			$("#counter2").text(minutes); 
 			$("#counter3").text(seconds);
+        } else{
+        	$("#services").remove();
         }
-        
-		$.get("add-ins/dday/api.php",function(messages){
-	        $("#remainText").text(messages.remainText);
-	        $("#welcomeText").text(messages.welcomeText);
-	      
-		}, "json");
-	    
+
     };
     
-	var calcWedding = setInterval(getMessage,1000);
+    var getWeddingMsg = function(){
+		$.get("add-ins/dday/api.php",function(messages){
+	        $("#remainText").html(messages.remainText);
+	        $("#welcomeText").html(messages.welcomeText);
+		}, "json");
+    }
+		
+	var calcWedding = setInterval(getMessage, 1000);
+	var weddingMsg = setInterval(getWeddingMsg, 5000);
     
 });
 
