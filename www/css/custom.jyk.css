@@ -34,7 +34,7 @@
 #blog-header {
 	padding-top:10px;
 	height:80px;
-	background-color:#2F4254;
+	background-color:#2F4254; /*here*/
 }
 
 #blog-header i {
@@ -448,7 +448,7 @@ header {
 
 .jumbotron {
 	margin:0;
-  	background-color:#2F4254;
+  	background-color:#2F4254; /*here: .jumbotron@bootstrap.css*/
 }
 
 .jumbotron img {
@@ -501,6 +501,9 @@ header {
 	margin-right:15px;
 }
 
+.bold {
+	font-weight: bold;
+}
 /*------------------------------
 	ABOUT
 ------------------------------*/
@@ -534,6 +537,7 @@ header {
 	padding:7px 0;
 	color:#FFFFFF;
 	/*height:135px;*/
+	margin-bottom: 35px;
 }
 
 .tweets p {
@@ -1127,7 +1131,8 @@ blockquote footer {
 }
 
 #testimonials .media .media-body h4 {
-	margin:0;
+	/*margin:0;*/
+	margin:0 0 15px;
 	font-weight:bold;
 	font-size:22px;
 }
@@ -1149,6 +1154,11 @@ blockquote footer {
 	line-height:25px;
 	font-size: 14px;
 }
+
+#more-testimonials {
+	border-radius:5px 5px 0 0;
+}
+
 
 /*------------------------------
 	CONTACT
@@ -1227,7 +1237,8 @@ blockquote footer {
 }
 
 .contact-image {
-	width:164px;
+	/*width:164px;*/
+	width:115px;
 	padding-bottom:15px;
 }
 
@@ -1480,8 +1491,10 @@ blockquote footer {
 	}
 	
 	.navbar-logo {
-		padding:5px 0 0 15px;
-		width:55px;
+		/*padding:5px 0 0 15px;*/
+		/*width:55px;*/
+		padding:5px 0 0 10px;
+		width:50px;
 	}
 	
 	.navbar-default .navbar-toggle {
@@ -1578,7 +1591,8 @@ blockquote footer {
 	}
 
 	.tweets p {
-		font-size:12px;
+		/*font-size:12px;*/
+		font-size:14px;
 	}
 	
 	.tweets i {

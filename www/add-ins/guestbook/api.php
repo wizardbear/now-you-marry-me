@@ -1,16 +1,66 @@
 <?php
 // var_dump($_POST);
 // error_reporting(0);
+
+function getTotalPage($db, $id) {
+
+    $sql = "select count(*) cnt from guestbook";
+    $stmt = $db->prepare($sql);
+    // $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    $countResult = $result->fetchArray();
+    
+    $totalCount = $countResult['cnt'];
+    $totalPage = ceil($totalCount / 4); 
+    return $totalPage;
+}
+
+function getRestIds($db, $id) {
+    
+}
+
 if ($_GET['m'] == 'show-recent-messages') {
     $db = new SQLite3('wedding.sqlite');
-    $sql = "select * from guestbook order by timestamp desc limit 2";
+    $sql = "select * from guestbook order by id desc limit 4";
     $result = $db->query($sql);
-    $ret = array();
+    $data = array();
     while($row = $result->fetchArray()) {
-        $ret[] = $row;
+        $data[] = $row;
+        $minId = $row['id'];
     }
     // var_dump($ret);
-    echo json_encode($ret);
+    $totalPage = getTotalPage($db, $minId);
+
+    echo json_encode(array(
+        'data' => $data,
+        'totalPage' => $totalPage,
+        'currentPage' => 1,
+        ));
+    
+}
+elseif ($_GET['m'] == 'show-more-messages') {
+    $minMsgId = $_GET['minMsgId'];
+    $db = new SQLite3('wedding.sqlite');
+    $sql = "select * from guestbook where id < :minMsgId order by id desc limit 4";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':minMsgId', $minMsgId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $data = array();
+    while($row = $result->fetchArray()) {
+        $data[] = $row;
+        $minId = $row['id'];
+    }
+    // var_dump($ret);
+    $totalPage = getTotalPage($db, $minId);
+
+    echo json_encode(array(
+        'data' => $data,
+        'totalPage' => $totalPage,
+        'currentPage' => 1,
+        ));
     
 }
 else {
@@ -29,13 +79,26 @@ else {
         $stmt->bindValue(':timestamp', $timestamp, SQLITE3_INTEGER);
         $stmt->bindValue(':meta', $meta, SQLITE3_TEXT);
         
+        // $totalPage = getTotalPage($db);
+
         $result = $stmt->execute();
-        if ($db->lastInsertRowID() > 0) echo $db->lastInsertRowID();
-        else echo 'fail';
-        
+        if ($db->lastInsertRowID() > 0) {
+            $code = $db->lastInsertRowID();
+        }
+        else {
+            $code = 'fail';
+        }
+
+        echo json_encode(array(
+            'code' => $code,
+            // 'totalPage' => $totalPage,
+            ));    
+
     }
     catch (Exception $e) {
-        echo 'fail';
+        echo json_encode(array(
+            'code' => $code,
+            ));    
     }
     
     
